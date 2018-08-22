@@ -3,10 +3,6 @@ sudo: required
 services:
   - docker
 
-branches:
-  only:
-    - master
-
 env:
   global:
     - REPOSITORY="${DOCKER_USERNAME}"
@@ -22,32 +18,30 @@ jobs:
   allow_failures:
     - env:
         - TOOLS_TO_BUILD="clippy"
-      script: ./.travis/build-containers.sh
     - env:
         - TOOLS_TO_BUILD="miri"
-      script: ./.travis/build-containers.sh
   include:
     - stage: build compiler containers
       env:
         - CHANNELS_TO_BUILD="stable"
-      script: ./.travis/build-containers.sh
+      script: "true"
     - env:
         - CHANNELS_TO_BUILD="beta"
-      script: ./.travis/build-containers.sh
+      script: "true"
     - env:
         - CHANNELS_TO_BUILD="nightly"
-      script: ./.travis/build-containers.sh
+      script: "true"
 
     - stage: build tools
       env:
         - TOOLS_TO_BUILD="rustfmt"
-      script: ./.travis/build-containers.sh
+      script: "false"
     - env:
         - TOOLS_TO_BUILD="clippy"
-      script: ./.travis/build-containers.sh
+      script: "true"
     - env:
         - TOOLS_TO_BUILD="miri"
-      script: ./.travis/build-containers.sh
+      script: "false"
 
     - stage: compile code
       env:
